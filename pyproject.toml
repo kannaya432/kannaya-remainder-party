@@ -1,0 +1,41 @@
+[project]
+name = "celebration-planner"
+version = "1.0.0"
+description = "GenAI-powered celebration and event planning assistant."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "Apache-2.0"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 80
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "C4", "PT", "RUF", "D"]
+ignore = ["D203", "D213", "D107", "D105"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "D", "PT018", "E501"]
+"src/planner/idea_bank.py" = ["E501"]  # curated copy: long string literals
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+mypy_path = "src"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-q --cov=planner --cov-report=term-missing --cov-fail-under=90"
+
+[tool.coverage.run]
+branch = true
