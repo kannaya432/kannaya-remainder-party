@@ -202,10 +202,9 @@ class IdeaSet(BaseModel):
     savings_tips: list[str] = Field(max_length=4)
 
 
-class PlanResponse(BaseModel):
-    """Full API response."""
+class IdeasResponse(BaseModel):
+    """Response of the ideas endpoint (kept separate so the plan is instant)."""
 
-    plan: Plan
     ideas: IdeaSet
     ideas_source: Literal["gemini", "curated"]
     generated_at: datetime

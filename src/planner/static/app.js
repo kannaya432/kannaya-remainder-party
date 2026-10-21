@@ -195,20 +195,49 @@ function renderVendors(plan) {
         h('h4', {}, 'Ask them'), list(v.questions))));
 }
 
-function renderIdeas(data) {
+function renderIdeasPlaceholder() {
+  return h('section', { class: 'card', id: 'ideas', 'aria-labelledby': 'ide-h', 'aria-busy': 'true' },
+    h('h3', { id: 'ide-h' }, 'Ideas for your day'),
+    h('p', { class: 'note', id: 'ideas-note' }, 'Finding ideas that fit your guests…'));
+}
+
+function fillIdeas(data) {
   const { ideas, ideas_source: source } = data;
+  const section = $('#ideas');
   const group = (title, items) => items.length > 0 && h('div', {},
     h('h4', {}, title), h('ul', {}, items.map((i) => h('li', {}, i))));
-  return h('section', { class: 'card', 'aria-labelledby': 'ide-h' },
+  section.replaceChildren(
     h('h3', { id: 'ide-h' }, 'Ideas for your day'),
     h('p', { class: 'note' }, source === 'gemini'
-      ? 'Personalised with Gemini.'
-      : 'Curated ideas matched to your answers.'),
+      ? 'Suggested by AI (Gemini). Please check details with your vendors before booking.'
+      : 'Curated suggestions matched to your answers.'),
     h('dl', { class: 'theme' }, ideas.themes.flatMap((t) => [h('dt', {}, t.name), h('dd', {}, t.description)])),
     group('Activities', ideas.activities),
     group('Menu', ideas.menu),
     group('Personal touches', ideas.personal_touches),
     group('Ways to save', ideas.savings_tips));
+  section.setAttribute('aria-busy', 'false');
+}
+
+function renderMethod() {
+  return h('details', { class: 'card method' },
+    h('summary', {}, 'How this plan was made'),
+    h('ul', {},
+      h('li', {}, 'Calculated by fixed rules: the budget split, dates, checklists and vendor questions. The same answers always give the same result.'),
+      h('li', {}, 'Suggested by AI: themes, activities, menu and personal touches. If AI is unavailable you get curated ideas instead.'),
+      h('li', {}, 'These are estimates, not quotes. Nothing is booked or sent for you, and your answers are not stored.')));
+}
+
+async function loadIdeas(payload) {
+  try {
+    const response = await postJson('/api/ideas', payload);
+    if (!response.ok) throw new Error('ideas unavailable');
+    fillIdeas(await response.json());
+    setStatus('Ideas are ready.');
+  } catch {
+    $('#ideas-note').textContent = 'Ideas are unavailable right now. Your plan above is complete.';
+    $('#ideas').setAttribute('aria-busy', 'false');
+  }
 }
 
 async function downloadCalendar(payload, button) {
@@ -230,14 +259,13 @@ async function downloadCalendar(payload, button) {
   }
 }
 
-function render(data, payload) {
-  const { plan } = data;
+function render(plan, payload) {
   output.replaceChildren(
     renderSummary(plan), renderBudget(plan), renderTimeline(plan),
-    renderVendors(plan), renderIdeas(data));
+    renderVendors(plan), renderIdeasPlaceholder(), renderMethod());
   $('#print').addEventListener('click', () => window.print());
   $('#ics').addEventListener('click', (e) => downloadCalendar(payload, e.currentTarget));
-  setStatus(`Your plan is ready: ${plan.timeline.length} milestones and ${plan.vendors.length} vendor checklists.`);
+  setStatus(`Your plan is ready: ${plan.timeline.length} milestones and ${plan.vendors.length} vendor checklists. Ideas are loading.`);
   resultsHeading.focus();
 }
 
@@ -259,6 +287,7 @@ form.addEventListener('submit', async (event) => {
       return;
     }
     render(await response.json(), payload);
+    loadIdeas(payload);
   } catch {
     setStatus('');
     showErrors(['We could not reach the server. Check your connection and try again.']);
@@ -284,6 +313,55 @@ function setMinimumDate() {
   const now = new Date();
   const pad = (n) => String(n).padStart(2, '0');
   $('#event_date').min = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+}
+
+const EXAMPLES = {
+  wedding: {
+    event_type: 'wedding', title: 'Priya and Arjun’s wedding', daysAhead: 150, guest_count: 250,
+    budget: 1800000, currency: 'INR', setting: 'outdoor', dietary: ['vegetarian', 'jain'],
+    priorities: ['food', 'decor'], city: 'Ongole', cultural_style: 'Telugu',
+  },
+  birthday: {
+    event_type: 'birthday', title: 'Anu turns 5', daysAhead: 30, guest_count: 25,
+    budget: 30000, currency: 'INR', setting: 'indoor', dietary: ['nut_free'],
+    priorities: ['entertainment'], honoree_age: 5, theme_preferences: 'space and rockets',
+  },
+  community: {
+    event_type: 'community', title: 'Colony Diwali Mela', daysAhead: 45, guest_count: 300,
+    budget: 150000, currency: 'INR', setting: 'outdoor', dietary: ['vegetarian'],
+    priorities: ['food', 'entertainment'], cultural_style: 'Telugu',
+  },
+};
+
+function isoDateAhead(days) {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+
+function applyExample(key) {
+  const example = EXAMPLES[key];
+  form.reset();
+  const radio = form.querySelector(`input[name=event_type][value=${example.event_type}]`);
+  radio.checked = true;
+  for (const name of ['title', 'guest_count', 'budget', 'currency', 'setting', 'city',
+    'cultural_style', 'theme_preferences', 'honoree_age']) {
+    if (example[name] !== undefined) form.elements[name].value = example[name];
+  }
+  form.elements.event_date.value = isoDateAhead(example.daysAhead);
+  for (const box of form.querySelectorAll('#dietary input, #priorities input')) {
+    box.checked = (example[box.name] ?? []).includes(box.value);
+  }
+  syncEventType();
+  limitPriorities();
+  clearErrors();
+  setStatus('Example loaded. Review the details, then choose Create my plan.');
+  $('#title').focus();
+}
+
+for (const button of document.querySelectorAll('[data-example]')) {
+  button.addEventListener('click', () => applyExample(button.dataset.example));
 }
 
 form.addEventListener('change', (e) => {

@@ -30,14 +30,26 @@ def test_health(client: TestClient) -> None:
 def test_plan_happy_path(client: TestClient) -> None:
     r = client.post("/api/plan", json=BODY)
     assert r.status_code == 200
+    plan = r.json()
+    assert sum(b["amount"] for b in plan["budget"]) == 30000
+    assert plan["timeline"][-1]["key"] == "event"
+    assert "ideas" not in plan  # the plan never waits on the model
+
+
+def test_ideas_endpoint(client: TestClient) -> None:
+    r = client.post("/api/ideas", json=BODY)
+    assert r.status_code == 200
     data = r.json()
     assert data["ideas_source"] == "curated"
-    assert sum(b["amount"] for b in data["plan"]["budget"]) == 30000
-    assert data["plan"]["timeline"][-1]["key"] == "event"
+    assert data["ideas"]["themes"] and "generated_at" in data
 
 
 def test_security_headers_on_api_and_static(client: TestClient) -> None:
-    for r in (client.post("/api/plan", json=BODY), client.get("/")):
+    for r in (
+        client.post("/api/plan", json=BODY),
+        client.post("/api/ideas", json=BODY),
+        client.get("/"),
+    ):
         assert "frame-ancestors 'none'" in r.headers["content-security-policy"]
         assert "script-src 'self'" in r.headers["content-security-policy"]
         assert r.headers["x-content-type-options"] == "nosniff"
@@ -151,7 +163,7 @@ def test_unexpected_error_is_generic() -> None:
         Settings(), idea_service=Boom(None, TTLCache(1, 1)), today=lambda: TODAY
     )
     r = TestClient(app, raise_server_exceptions=False).post(
-        "/api/plan", json=BODY
+        "/api/ideas", json=BODY
     )
     assert r.status_code == 500 and "secret" not in r.text
 

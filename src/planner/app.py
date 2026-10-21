@@ -13,12 +13,13 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.gzip import GZipMiddleware
 
+from planner.budget import classify_tier
 from planner.config import Settings
 from planner.engine import build_plan
 from planner.errors import PlanningError
 from planner.ics import build_ics
 from planner.ideas import IdeaService, build_idea_service
-from planner.models import EventRequest, PlanResponse
+from planner.models import EventRequest, IdeasResponse, Plan
 from planner.ratelimit import SlidingWindowRateLimiter
 from planner.security import (
     BodySizeLimitMiddleware,
@@ -115,17 +116,22 @@ def create_app(
 
     @app.post(
         "/api/plan",
-        response_model=PlanResponse,
+        response_model=Plan,
         dependencies=[Depends(enforce_rate_limit)],
     )
-    async def create_plan(body: EventRequest) -> PlanResponse:
-        plan = build_plan(body, get_today())
-        ideas, source = await service.get(body, plan.tier)
-        return PlanResponse(
-            plan=plan,
-            ideas=ideas,
-            ideas_source=source,
-            generated_at=datetime.now(UTC),
+    async def create_plan(body: EventRequest) -> Plan:
+        # Deterministic and instant: never waits on the model.
+        return build_plan(body, get_today())
+
+    @app.post(
+        "/api/ideas",
+        response_model=IdeasResponse,
+        dependencies=[Depends(enforce_rate_limit)],
+    )
+    async def create_ideas(body: EventRequest) -> IdeasResponse:
+        ideas, source = await service.get(body, classify_tier(body))
+        return IdeasResponse(
+            ideas=ideas, ideas_source=source, generated_at=datetime.now(UTC)
         )
 
     @app.post("/api/plan.ics", dependencies=[Depends(enforce_rate_limit)])

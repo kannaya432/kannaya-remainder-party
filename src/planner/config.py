@@ -30,7 +30,7 @@ class Settings:
     gemini_api_key: str | None = None
     gemini_model: str = DEFAULT_MODEL
     ai_timeout_seconds: int = 12
-    rate_limit_per_minute: int = 20
+    rate_limit_per_minute: int = 30
     max_body_bytes: int = 16_384
     trust_proxy: bool = False
     cache_ttl_seconds: int = 3600
@@ -62,7 +62,7 @@ class Settings:
             gemini_api_key=key or None,
             gemini_model=(e.get("GEMINI_MODEL") or DEFAULT_MODEL).strip(),
             ai_timeout_seconds=_int(e, "AI_TIMEOUT_SECONDS", 12, 1, 60),
-            rate_limit_per_minute=_int(e, "RATE_LIMIT_PER_MINUTE", 20, 1, 6000),
+            rate_limit_per_minute=_int(e, "RATE_LIMIT_PER_MINUTE", 30, 1, 6000),
             max_body_bytes=_int(e, "MAX_BODY_BYTES", 16_384, 1024, 1_048_576),
             trust_proxy=e.get("TRUST_PROXY", "false").strip().lower() in _TRUE,
             cache_ttl_seconds=_int(e, "CACHE_TTL_SECONDS", 3600, 0, 86_400),

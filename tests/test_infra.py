@@ -52,7 +52,7 @@ def test_rate_limiter_window_and_eviction() -> None:
 
 def test_settings_defaults_and_overrides() -> None:
     s = Settings.from_env({})
-    assert not s.ai_enabled and s.rate_limit_per_minute == 20
+    assert not s.ai_enabled and s.rate_limit_per_minute == 30
     s = Settings.from_env(
         {
             "GOOGLE_API_KEY": " k ",
