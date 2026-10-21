@@ -15,6 +15,7 @@ _CSP = (
 _STATIC_HEADERS = {
     "Content-Security-Policy": _CSP,
     "X-Content-Type-Options": "nosniff",
+    "X-Frame-Options": "DENY",
     "Referrer-Policy": "no-referrer",
     "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
     "Cross-Origin-Opener-Policy": "same-origin",

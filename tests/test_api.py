@@ -41,6 +41,7 @@ def test_security_headers_on_api_and_static(client: TestClient) -> None:
         assert "frame-ancestors 'none'" in r.headers["content-security-policy"]
         assert "script-src 'self'" in r.headers["content-security-policy"]
         assert r.headers["x-content-type-options"] == "nosniff"
+        assert r.headers["x-frame-options"] == "DENY"
         assert r.headers["referrer-policy"] == "no-referrer"
         assert len(r.headers["x-request-id"]) == 32
     assert client.get("/api/health").headers["cache-control"] == "no-store"

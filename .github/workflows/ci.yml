@@ -16,3 +16,5 @@ jobs:
       - run: ruff format --check .
       - run: mypy src
       - run: pytest
+      - run: pip install pip-audit && pip-audit -r requirements.txt
+      - run: "! git grep -nIE '(AIza[0-9A-Za-z_-]{35}|sk-[A-Za-z0-9]{20,})'"
