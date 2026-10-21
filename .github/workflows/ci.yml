@@ -18,3 +18,14 @@ jobs:
       - run: pytest
       - run: pip install pip-audit && pip-audit -r requirements.txt
       - run: "! git grep -nIE '(AIza[0-9A-Za-z_-]{35}|sk-[A-Za-z0-9]{20,})'"
+  ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+        working-directory: tests/ui
+      - run: npm test
+        working-directory: tests/ui

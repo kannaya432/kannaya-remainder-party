@@ -1,0 +1,420 @@
+{
+ "title": "Priya and Arjun",
+ "event_type": "wedding",
+ "event_date": "2027-03-20",
+ "days_to_go": 151,
+ "guest_count": 250,
+ "currency": "INR",
+ "total_budget": 1800000,
+ "budget_per_guest": 7200,
+ "tier": "premium",
+ "timeline_compressed": true,
+ "budget": [
+  {
+   "key": "venue",
+   "label": "Venue & rentals",
+   "amount": 306775,
+   "percent": 17.0,
+   "note": "Standard share for this event."
+  },
+  {
+   "key": "catering",
+   "label": "Food & beverage",
+   "amount": 569067,
+   "percent": 31.6,
+   "note": "Increased because you prioritised food. Extra allowance for special-diet sourcing."
+  },
+  {
+   "key": "decor",
+   "label": "Decor & flowers",
+   "amount": 210908,
+   "percent": 11.7,
+   "note": "Increased because you prioritised decor. Room for upgrades."
+  },
+  {
+   "key": "photo_video",
+   "label": "Photo & video",
+   "amount": 168726,
+   "percent": 9.4,
+   "note": "Room for upgrades."
+  },
+  {
+   "key": "attire_beauty",
+   "label": "Attire & beauty",
+   "amount": 151853,
+   "percent": 8.4,
+   "note": "Room for upgrades."
+  },
+  {
+   "key": "entertainment",
+   "label": "Music & entertainment",
+   "amount": 101236,
+   "percent": 5.6,
+   "note": "Room for upgrades."
+  },
+  {
+   "key": "invitations",
+   "label": "Invitations & stationery",
+   "amount": 30677,
+   "percent": 1.7,
+   "note": "Standard share for this event."
+  },
+  {
+   "key": "guest_experience",
+   "label": "Guest travel & stay",
+   "amount": 76694,
+   "percent": 4.3,
+   "note": "Standard share for this event."
+  },
+  {
+   "key": "rituals",
+   "label": "Officiant & rituals",
+   "amount": 30677,
+   "percent": 1.7,
+   "note": "Standard share for this event."
+  },
+  {
+   "key": "contingency",
+   "label": "Contingency",
+   "amount": 153387,
+   "percent": 8.5,
+   "note": "Larger buffer for a weather backup."
+  }
+ ],
+ "timeline": [
+  {
+   "key": "budget",
+   "label": "Agree budget, guest-list draft and priorities",
+   "due_date": "2026-10-20",
+   "days_until": 0,
+   "category": "planning",
+   "critical": false,
+   "urgent": true
+  },
+  {
+   "key": "venue",
+   "label": "Book venue and lock the date",
+   "due_date": "2026-11-02",
+   "days_until": 13,
+   "category": "venue",
+   "critical": true,
+   "urgent": false
+  },
+  {
+   "key": "photo",
+   "label": "Book photographer and videographer",
+   "due_date": "2026-11-14",
+   "days_until": 25,
+   "category": "photo_video",
+   "critical": true,
+   "urgent": false
+  },
+  {
+   "key": "caterer",
+   "label": "Book caterer and schedule a tasting",
+   "due_date": "2026-12-09",
+   "days_until": 50,
+   "category": "catering",
+   "critical": true,
+   "urgent": false
+  },
+  {
+   "key": "legal",
+   "label": "Start marriage registration paperwork",
+   "due_date": "2026-12-22",
+   "days_until": 63,
+   "category": "legal",
+   "critical": true,
+   "urgent": false
+  },
+  {
+   "key": "save_date",
+   "label": "Send save-the-dates",
+   "due_date": "2027-01-03",
+   "days_until": 75,
+   "category": "invitations",
+   "critical": false,
+   "urgent": false
+  },
+  {
+   "key": "attire",
+   "label": "Choose attire and book beauty trials",
+   "due_date": "2027-01-03",
+   "days_until": 75,
+   "category": "attire_beauty",
+   "critical": false,
+   "urgent": false
+  },
+  {
+   "key": "decor",
+   "label": "Book decor, florist and entertainment",
+   "due_date": "2027-01-16",
+   "days_until": 88,
+   "category": "decor",
+   "critical": false,
+   "urgent": false
+  },
+  {
+   "key": "travel",
+   "label": "Arrange guest travel and stay",
+   "due_date": "2027-01-29",
+   "days_until": 101,
+   "category": "guest_experience",
+   "critical": false,
+   "urgent": false
+  },
+  {
+   "key": "invites",
+   "label": "Send formal invitations",
+   "due_date": "2027-02-25",
+   "days_until": 128,
+   "category": "invitations",
+   "critical": true,
+   "urgent": false
+  },
+  {
+   "key": "rsvp",
+   "label": "Chase RSVPs and fix final headcount",
+   "due_date": "2027-03-08",
+   "days_until": 139,
+   "category": "planning",
+   "critical": false,
+   "urgent": false
+  },
+  {
+   "key": "menu",
+   "label": "Finalise menu, seating plan and run of show",
+   "due_date": "2027-03-11",
+   "days_until": 142,
+   "category": "catering",
+   "critical": false,
+   "urgent": false
+  },
+  {
+   "key": "vendors",
+   "label": "Reconfirm every vendor and payment schedule",
+   "due_date": "2027-03-14",
+   "days_until": 145,
+   "category": "planning",
+   "critical": true,
+   "urgent": false
+  },
+  {
+   "key": "fittings",
+   "label": "Final fittings and beauty trials",
+   "due_date": "2027-03-14",
+   "days_until": 145,
+   "category": "attire_beauty",
+   "critical": false,
+   "urgent": false
+  },
+  {
+   "key": "weather",
+   "label": "Confirm weather backup for the outdoor setup",
+   "due_date": "2027-03-14",
+   "days_until": 145,
+   "category": "venue",
+   "critical": true,
+   "urgent": false
+  },
+  {
+   "key": "rehearsal",
+   "label": "Hold rehearsal and share the day-of schedule",
+   "due_date": "2027-03-19",
+   "days_until": 150,
+   "category": "planning",
+   "critical": false,
+   "urgent": false
+  },
+  {
+   "key": "balances",
+   "label": "Pay final balances and prepare tip envelopes",
+   "due_date": "2027-03-19",
+   "days_until": 150,
+   "category": "planning",
+   "critical": false,
+   "urgent": false
+  },
+  {
+   "key": "event",
+   "label": "Wedding day",
+   "due_date": "2027-03-20",
+   "days_until": 151,
+   "category": "event",
+   "critical": true,
+   "urgent": false
+  },
+  {
+   "key": "thanks",
+   "label": "Send thank-you notes and settle final invoices",
+   "due_date": "2027-03-27",
+   "days_until": 158,
+   "category": "planning",
+   "critical": false,
+   "urgent": false
+  }
+ ],
+ "vendors": [
+  {
+   "key": "venue",
+   "name": "Venue",
+   "estimated_budget": 153388,
+   "book_by": "2026-11-02",
+   "tasks": [
+    "Visit two or three shortlisted venues",
+    "Confirm capacity, parking and noise limits",
+    "Ask about in-house vendor rules"
+   ],
+   "questions": [
+    "What is the exact guest capacity?",
+    "Until what time can we use the space?",
+    "What is the payment schedule and cancellation policy?"
+   ]
+  },
+  {
+   "key": "photo",
+   "name": "Photographer & videographer",
+   "estimated_budget": 168726,
+   "book_by": "2026-11-14",
+   "tasks": [
+    "Review full wedding albums, not only highlights",
+    "List must-have shots and family groups"
+   ],
+   "questions": [
+    "How many photographers will attend?",
+    "When will we receive edited files?",
+    "What is your backup plan if something goes wrong on the day?"
+   ]
+  },
+  {
+   "key": "caterer",
+   "name": "Caterer",
+   "estimated_budget": 569067,
+   "book_by": "2026-12-09",
+   "tasks": [
+    "Shortlist caterers and attend a tasting",
+    "Fix per-plate price and serving staff count"
+   ],
+   "questions": [
+    "Can you serve vegetarian, jain options with separate preparation?",
+    "What is included per plate?",
+    "How much food is prepared as a buffer?",
+    "What is the payment schedule and cancellation policy?"
+   ]
+  },
+  {
+   "key": "officiant",
+   "name": "Officiant & rituals",
+   "estimated_budget": 30677,
+   "book_by": "2026-12-22",
+   "tasks": [
+    "Confirm the ceremony order and duration",
+    "Prepare the list of ritual items"
+   ],
+   "questions": [
+    "Which items should the family arrange?",
+    "How long will the ceremony take?"
+   ]
+  },
+  {
+   "key": "attire",
+   "name": "Attire & beauty",
+   "estimated_budget": 151853,
+   "book_by": "2027-01-03",
+   "tasks": [
+    "Book fittings and trials",
+    "Plan alterations time"
+   ],
+   "questions": [
+    "How long do alterations take?",
+    "What is the payment schedule and cancellation policy?"
+   ]
+  },
+  {
+   "key": "decor",
+   "name": "Decor & florist",
+   "estimated_budget": 210908,
+   "book_by": "2027-01-16",
+   "tasks": [
+    "Share a mood board and colour palette",
+    "Confirm set-up and tear-down times"
+   ],
+   "questions": [
+    "Which flowers are in season for our date?",
+    "What is your backup plan if something goes wrong on the day?",
+    "What is the payment schedule and cancellation policy?"
+   ]
+  },
+  {
+   "key": "music",
+   "name": "Music, DJ or band",
+   "estimated_budget": 101236,
+   "book_by": "2027-01-16",
+   "tasks": [
+    "Share a must-play and do-not-play list",
+    "Check sound limits at the venue"
+   ],
+   "questions": [
+    "What equipment do you bring?",
+    "What is your backup plan if something goes wrong on the day?",
+    "What is the payment schedule and cancellation policy?"
+   ]
+  },
+  {
+   "key": "transport",
+   "name": "Guest travel & stay",
+   "estimated_budget": 76694,
+   "book_by": "2027-01-29",
+   "tasks": [
+    "Block hotel rooms or homestays",
+    "Arrange local transport and signage"
+   ],
+   "questions": [
+    "What is the room-block release date?",
+    "What is the payment schedule and cancellation policy?"
+   ]
+  },
+  {
+   "key": "stationery",
+   "name": "Invitations & stationery",
+   "estimated_budget": 30677,
+   "book_by": "2027-02-10",
+   "tasks": [
+    "Finalise wording and languages",
+    "Proof every name and date"
+   ],
+   "questions": [
+    "What is the print turnaround?",
+    "Can you send a digital version too?"
+   ]
+  },
+  {
+   "key": "rentals",
+   "name": "Tent, lighting & rentals",
+   "estimated_budget": 153387,
+   "book_by": "2027-02-23",
+   "tasks": [
+    "Get quotes for tent or canopy cover",
+    "Plan power and lighting"
+   ],
+   "questions": [
+    "Is wind and rain cover included?",
+    "Who sets up and who removes?"
+   ]
+  }
+ ],
+ "advisories": [
+  {
+   "level": "warning",
+   "message": "Only 151 days to go: lead times were shortened. Book the items marked critical first."
+  },
+  {
+   "level": "info",
+   "message": "Outdoor setting: a weather backup is in the plan."
+  },
+  {
+   "level": "warning",
+   "message": "Large crowd: confirm the venue's licensed capacity, fire exits and first-aid cover."
+  }
+ ]
+}
