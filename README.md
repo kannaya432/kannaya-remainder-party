@@ -98,6 +98,8 @@ names in Google AI Studio, because Google retires models.
 **Docker / Cloud Run:** `docker build -t planner . && docker run -p 8080:8080 -e GEMINI_API_KEY planner`.
 The image runs as a non-root user and honours `$PORT`.
 
+**Vercel:** Import this repository into Vercel. It is configured via `vercel.json` and `api/index.py`. Add `TRUST_PROXY=true` and optionally `GEMINI_API_KEY` under Project Settings → Environment Variables.
+
 ## 5. Test
 
 ```bash
