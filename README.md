@@ -119,7 +119,26 @@ pip install -r requirements-dev.txt
 * Tests use small hand-written fakes instead of mocks, so they assert on
   results, not on internal calls.
 
-## 6. Evaluation criteria → where to look
+## 6. CI/CD
+
+GitHub Actions runs the lint, format, type, API, accessibility, dependency and
+secret checks on every push and pull request. A push to `main` deploys only
+after both test jobs pass, then verifies `GET /api/health` and the public home
+page before marking the deployment successful.
+
+Create these repository secrets before enabling production deployment:
+
+| Secret | Value |
+|---|---|
+| `VERCEL_TOKEN` | A Vercel token with access to this project. |
+| `VERCEL_ORG_ID` | The Vercel team or personal-account ID. |
+| `VERCEL_PROJECT_ID` | The Vercel project ID. |
+
+In GitHub, make the `test` and `ui` checks required for `main`. If the project
+is also connected to Vercel's Git integration, disable automatic production
+deployments there so this workflow is the only production deployment path.
+
+## 7. Evaluation criteria → where to look
 
 | Criterion | What was done |
 |---|---|
@@ -130,7 +149,7 @@ pip install -r requirements-dev.txt
 | **Accessibility** | Landmarks, skip link, labelled controls and fieldsets, live status that announces plan and ideas once (not token by token), `aria-busy` while ideas load, error summary with `role="alert"`, focus moves to results, 44 px targets (WCAG 2.2 asks 24 px), visible focus, AA contrast (tested), dark mode, reduced motion, forced-colors, print styles, example starters to reduce typing. |
 | **Problem alignment** | Budgets, timelines, vendor checklists and personalised ideas for all three event types, driven by the user's context, plus calendar export and a printable plan. |
 
-## 7. API
+## 8. API
 
 * `GET /api/health`
 * `POST /api/plan` → the deterministic plan
@@ -138,7 +157,7 @@ pip install -r requirements-dev.txt
 * `POST /api/plan.ics` → timeline as an iCalendar file
 * `GET /api/openapi.json`
 
-## 8. Assumptions and limits
+## 9. Assumptions and limits
 
 * Per-guest spending floors (for example ₹400, $10) are rough heuristics used
   only to pick the tier. They are not market quotes.

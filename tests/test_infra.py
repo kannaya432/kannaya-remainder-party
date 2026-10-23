@@ -40,6 +40,14 @@ assert response.json()['status'] == 'ok'
     assert result.returncode == 0, result.stderr
 
 
+def test_vercel_api_bundle_excludes_duplicate_static_assets() -> None:
+    """Vercel requires unique extensionless paths in the API function bundle."""
+    api_static = Path(__file__).parents[1] / "api" / "planner" / "static"
+    assert not (api_static / "app.css").exists()
+    assert not (api_static / "app.js").exists()
+    assert not (api_static / "index.html").exists()
+
+
 class Clock:
     def __init__(self) -> None:
         self.now = 0.0
