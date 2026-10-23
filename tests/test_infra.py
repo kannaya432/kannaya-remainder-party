@@ -1,3 +1,4 @@
+import json
 import subprocess
 import sys
 import tomllib
@@ -58,6 +59,14 @@ def test_pyproject_declares_runtime_dependencies_for_vercel() -> None:
     assert any(
         dependency.startswith("fastapi==") for dependency in dependencies
     )
+
+
+def test_vercel_does_not_rewrite_fastapi_routes_to_entrypoint() -> None:
+    """The FastAPI preset keeps the original request path for route matching."""
+    vercel_json = Path(__file__).parents[1] / "vercel.json"
+    config = json.loads(vercel_json.read_text(encoding="utf-8"))
+
+    assert "rewrites" not in config
 
 
 class Clock:
