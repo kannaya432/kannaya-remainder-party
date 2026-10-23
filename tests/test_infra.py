@@ -1,4 +1,7 @@
+import subprocess
+import sys
 from datetime import UTC, datetime
+from pathlib import Path
 
 import pytest
 
@@ -8,6 +11,33 @@ from planner.config import Settings
 from planner.engine import build_plan
 from planner.ics import _fold, build_ics
 from planner.ratelimit import SlidingWindowRateLimiter
+
+
+def test_vercel_entrypoint_starts_from_bundled_api_package() -> None:
+    """The serverless entrypoint must work without the development source path."""
+    root = Path(__file__).parents[1]
+    code = """
+import importlib.util
+from pathlib import Path
+from fastapi.testclient import TestClient
+
+entrypoint = Path('api/index.py').resolve()
+spec = importlib.util.spec_from_file_location('vercel_entry', entrypoint)
+assert spec is not None and spec.loader is not None
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+response = TestClient(module.app).get('/api/health')
+assert response.status_code == 200
+assert response.json()['status'] == 'ok'
+"""
+    result = subprocess.run(  # noqa: S603 - executable is this test's Python.
+        [sys.executable, "-c", code],
+        cwd=root,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stderr
 
 
 class Clock:
