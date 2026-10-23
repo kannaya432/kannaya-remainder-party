@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import tomllib
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -46,6 +47,17 @@ def test_vercel_api_bundle_excludes_duplicate_static_assets() -> None:
     assert not (api_static / "app.css").exists()
     assert not (api_static / "app.js").exists()
     assert not (api_static / "index.html").exists()
+
+
+def test_pyproject_declares_runtime_dependencies_for_vercel() -> None:
+    """Vercel resolves Python dependencies from pyproject.toml."""
+    pyproject = Path(__file__).parents[1] / "pyproject.toml"
+    config = tomllib.loads(pyproject.read_text(encoding="utf-8"))
+    dependencies = config["project"]["dependencies"]
+
+    assert any(
+        dependency.startswith("fastapi==") for dependency in dependencies
+    )
 
 
 class Clock:

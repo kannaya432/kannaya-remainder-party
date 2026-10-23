@@ -5,6 +5,13 @@ description = "GenAI-powered celebration and event planning assistant."
 readme = "README.md"
 requires-python = ">=3.12"
 license = "Apache-2.0"
+dependencies = [
+    "fastapi==0.151.0",
+    "uvicorn==0.54.0",
+    "pydantic==2.14.1",
+    "google-genai==2.31.0",
+    "tzdata==2026.5",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
