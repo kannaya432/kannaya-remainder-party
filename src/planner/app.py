@@ -145,5 +145,18 @@ def create_app(
             },
         )
 
-    app.mount("/", StaticFiles(directory=STATIC_DIR, html=True), name="static")
+    static_candidates = [
+        STATIC_DIR,
+        Path.cwd() / "public",
+        Path.cwd() / "src" / "planner" / "static",
+        Path("/var/task/src/planner/static"),
+        Path("/var/task/public"),
+    ]
+    resolved_static = next((d for d in static_candidates if d.exists()), None)
+    if resolved_static is not None:
+        app.mount(
+            "/",
+            StaticFiles(directory=resolved_static, html=True),
+            name="static",
+        )
     return app
